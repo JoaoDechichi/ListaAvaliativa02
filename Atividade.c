@@ -63,6 +63,52 @@ void cadastrarUsuario(int contadorUsuarios) {
     printf("Usuario cadastrado com sucesso!\n");
     printf("ID do usuario criado: %d\n", novoUsuarioID);
 }
+    void excluirUsuario(int *usuarioCount) {
+    int idSearch;
+    printf("Digite o ID do usuario a ser excluido: ");
+    scanf("%d", &idSearch);
+
+    for (int i = 0; i < *usuarioCount; i++) {
+        if (id[i] == idSearch) {
+            for (int j = i; j < (*usuarioCount) - 1; j++) {
+                id[j] = id[j + 1];
+                strcpy(nome[j], nome[j + 1]);
+                strcpy(email[j], email[j + 1]);
+                altura[j] = altura[j + 1];
+                vacina[j] = vacina[j + 1];
+                strcpy(sexo[j], sexo[j + 1]);
+                strcpy(endereco[j], endereco[j + 1]);
+            }
+            (*usuarioCount)--;
+            printf("Usuario excluido com sucesso!\n");
+            return;
+        }
+    }
+
+    printf("Usuario nao encontrado.\n");
+}
+
+void buscarUsuarioPorEmail(int usuarioCount) {
+    char emailSearch[40];
+    printf("Digite o email do usuario a ser buscado: ");
+    fgets(emailSearch, 40, stdin);
+
+    for (int i = 0; i < usuarioCount; i++) {
+        if (strcmp(email[i], emailSearch) == 0) {
+            printf("Usuario encontrado!\n");
+            printf("ID: %d\n", id[i]);
+            printf("Nome: %s\n", nome[i]);
+            printf("Email: %s\n", email[i]);
+            printf("Altura: %.2lf\n", altura[i]);
+            printf("Vacinado: %s\n", vacina[i] ? "Sim" : "Nao");
+            printf("Sexo: %s\n", sexo[i]);
+            printf("Endereco: %s\n", endereco[i]);
+            return;
+        }
+    }
+
+    printf("Usuario nao encontrado.\n");
+}
 int main() {
     srand(time(NULL));
 
@@ -102,6 +148,18 @@ int main() {
                 printf("          Edicao de Usuario\n");
                 printf("=========================================\n");
                 editarUsuario(usuarioCount);
+                break;
+            case 3:
+                printf("\n=========================================\n");
+                printf("          Exclusao de Usuario\n");
+                printf("=========================================\n");
+                excluirUsuario(&usuarioCount);
+                break;
+            case 4:
+                printf("\n=========================================\n");
+                printf("          Busca de Usuario por Email\n");
+                printf("=========================================\n");
+                buscarUsuarioPorEmail(usuarioCount);
                 break;
 
             default:
