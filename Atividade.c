@@ -109,6 +109,26 @@ void buscarUsuarioPorEmail(int usuarioCount) {
 
     printf("Usuario nao encontrado.\n");
 }
+
+void listarUsuarios(int usuarioCount) {
+    if (usuarioCount == 0) {
+        printf("Nenhum usuario cadastrado.\n");
+        return;
+    }
+
+    for (int i = 0; i < usuarioCount; i++) {
+        printf("ID: %d\n", id[i]);
+        printf("Nome: %s\n", nome[i]);
+        printf("Email: %s\n", email[i]);
+        printf("Altura: %.2lf\n", altura[i]);
+        printf("Vacinado: %s\n", vacina[i] ? "Sim" : "Nao");
+        printf("Sexo: %s\n", sexo[i]);
+        printf("Endereco: %s\n", endereco[i]);
+        printf("------------------------------\n");
+    }
+}
+
+
 int main() {
     srand(time(NULL));
 
@@ -161,7 +181,12 @@ int main() {
                 printf("=========================================\n");
                 buscarUsuarioPorEmail(usuarioCount);
                 break;
-
+            case 5:
+                printf("\n=========================================\n");
+                printf("          Lista de Usuarios Cadastrados\n");
+                printf("=========================================\n");
+                listarUsuarios(usuarioCount);
+                break;
             default:
                 printf("Opcao invalida. Por favor, digite novamente.\n");
                 break;
