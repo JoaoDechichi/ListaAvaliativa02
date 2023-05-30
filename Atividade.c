@@ -13,57 +13,136 @@ int vacina[MAX_USUARIOS];
 char sexo[MAX_USUARIOS][20];
 char endereco[MAX_USUARIOS][100];
 
-void cadastrarUsuario(int contadorUsuarios) {
-    if (contadorUsuarios == MAX_USUARIOS) {
+void cadastrarUsuario(int usuarioCount) {
+    if (usuarioCount == MAX_USUARIOS) {
         printf("Limite de usuarios cadastrados atingido.\n");
         return;
     }
 
     int novoUsuarioID = rand();
-    id[contadorUsuarios] = novoUsuarioID;
+    id[usuarioCount] = novoUsuarioID;
 
     printf("Insira o nome do usuario em questao (Digite 'p' para parar): ");
-    fgets(nome[contadorUsuarios], 40, stdin);
+    fgets(nome[usuarioCount], 40, stdin);
     fflush(stdin);
     getchar();
 
-    if (nome[contadorUsuarios][0] == 'p') {
+    if (nome[usuarioCount][0] == 'p') {
         system("cls");
         return;
     }
 
     do {
         printf("Informe o email a ser usado: ");
-        fgets(email[contadorUsuarios], 40, stdin);
+        fgets(email[usuarioCount], 40, stdin);
         fflush(stdin);
-    } while (strchr(email[contadorUsuarios], '@') == NULL);
+    } while (strchr(email[usuarioCount], '@') == NULL);
 
     do {
         printf("Qual a altura do usuario? ");
-        scanf("%lf", &altura[contadorUsuarios]);
+        scanf("%lf", &altura[usuarioCount]);
         fflush(stdin);
-    } while (altura[contadorUsuarios] <= 1 || altura[contadorUsuarios] >= 2);
+    } while (altura[usuarioCount] <= 1 || altura[usuarioCount] >= 2);
 
     do {
         printf("O usuario e vacinado? (1 - Sim) (0 - Nao) ");
-        scanf("%d", &vacina[contadorUsuarios]);
+        scanf("%d", &vacina[usuarioCount]);
         fflush(stdin);
-    } while (vacina[contadorUsuarios] != 1 && vacina[contadorUsuarios] != 0);
+    } while (vacina[usuarioCount] != 1 && vacina[usuarioCount] != 0);
 
     do {
         printf("Qual o sexo do usuario? ");
-        fgets(sexo[contadorUsuarios], 20, stdin);
+        fgets(sexo[usuarioCount], 20, stdin);
         fflush(stdin);
-    } while (strcmp(sexo[contadorUsuarios], "Masculino\n") != 0 && strcmp(sexo[contadorUsuarios], "Feminino\n") != 0 && strcmp(sexo[contadorUsuarios], "Indiferente\n") != 0);
+    } while (strcmp(sexo[usuarioCount], "Masculino\n") != 0 && strcmp(sexo[usuarioCount], "Feminino\n") != 0 && strcmp(sexo[usuarioCount], "Indiferente\n") != 0);
 
     printf("Qual o endereco do usuario? ");
-    fgets(endereco[contadorUsuarios], 100, stdin);
+    fgets(endereco[usuarioCount], 100, stdin);
     fflush(stdin);
 
     printf("Usuario cadastrado com sucesso!\n");
     printf("ID do usuario criado: %d\n", novoUsuarioID);
 }
-    void excluirUsuario(int *usuarioCount) {
+
+void editarUsuario(int usuarioCount) {
+    int idSearch;
+    printf("Digite o ID do usuario a ser editado: ");
+    scanf("%d", &idSearch);
+
+    for (int i = 0; i < usuarioCount; i++) {
+        if (id[i] == idSearch) {
+            printf("Usuario encontrado!\n");
+            printf("Nome: %s\n", nome[i]);
+            printf("Email: %s\n", email[i]);
+            printf("Altura: %.2lf\n", altura[i]);
+            printf("Vacinado: %s\n", vacina[i] ? "Sim" : "Nao");
+            printf("Sexo: %s\n", sexo[i]);
+            printf("Endereco: %s\n", endereco[i]);
+
+            printf("\nDigite os novos dados do usuario:\n");
+
+            int opcao;
+            do {
+                printf("Opcoes de edicao:\n");
+                printf("1. Nome\n");
+                printf("2. Email\n");
+                printf("3. Altura\n");
+                printf("4. Vacinado\n");
+                printf("5. Sexo\n");
+                printf("6. Endereco\n");
+                printf("0. Sair\n");
+
+                printf("Digite a opcao desejada: ");
+                scanf("%d", &opcao);
+
+                switch (opcao) {
+                    case 0:
+                        printf("Saindo da edicao...\n");
+                        break;
+                    case 1:
+                        printf("Novo Nome: ");
+                        getchar();
+                        fgets(nome[i], 40, stdin);
+                        break;
+                    case 2:
+                        printf("Novo Email: ");
+                        getchar();
+                        fgets(email[i], 40, stdin);
+                        break;
+                    case 3:
+                        printf("Nova Altura: ");
+                        scanf("%lf", &altura[i]);
+                        break;
+                    case 4:
+                        printf("Vacinado (1 - Sim / 0 - Nao): ");
+                        scanf("%d", &vacina[i]);
+                        break;
+                    case 5:
+                        printf("Novo Sexo: ");
+                        getchar();
+                        fgets(sexo[i], 20, stdin);
+                        break;
+                    case 6:
+                        printf("Novo Endereco: ");
+                        getchar();
+                        fgets(endereco[i], 100, stdin);
+                        break;
+                    default:
+                        printf("Opcao invalida. Digite novamente.\n");
+                        break;
+                }
+            } while (opcao != 0);
+
+            printf("Usuario editado com sucesso!\n");
+
+            return;
+        }
+    }
+
+    printf("Usuario nao encontrado.\n");
+}
+
+void excluirUsuario(int *usuarioCount) {
     int idSearch;
     printf("Digite o ID do usuario a ser excluido: ");
     scanf("%d", &idSearch);
@@ -127,7 +206,6 @@ void listarUsuarios(int usuarioCount) {
         printf("------------------------------\n");
     }
 }
-
 
 int main() {
     srand(time(NULL));
@@ -197,3 +275,4 @@ int main() {
 
     return 0;
 }
+
